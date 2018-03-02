@@ -14,23 +14,18 @@ defmodule MixUnderTest do
     end
   end
 
-  defmacro assert_mix_under_fails(args) do
-    quote do
-      mix_under unquote(args), {_, status} do
-        assert status > 0, "Expected to fail"
-      end
+  def assert_mix_under_fails(args) do
+    mix_under args, {_, status} do
+      assert status > 0, "Expected to fail"
     end
   end
 
-  defmacro assert_mix_under_contains(args, strings) do
-    quote do
-      args = unquote(args)
-      mix_under args, {out, _} do
-        unquote(strings) |> Enum.map(fn expected ->
-          assert String.contains?(out, expected),
-          "Expected output of `mix under #{Enum.join(args, " ")}` to contain #{expected}, but was: \n#{out}"
-        end)
-      end
+  def assert_mix_under_contains(args, strings) do
+    mix_under args, {out, _} do
+      strings |> Enum.map(fn expected ->
+        assert String.contains?(out, expected),
+        "Expected output of `mix under #{Enum.join(args, " ")}` to contain #{expected}, but was: \n#{out}"
+      end)
     end
   end
 
