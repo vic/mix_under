@@ -7,7 +7,7 @@ defmodule MixUnder.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      description: "Run mix tasks (like tests) under specific umbrella applications",
+      description: "Run mix tasks (like test or ecto db.migrate) under specific umbrella applications",
       deps: deps(),
       package: package()
     ]

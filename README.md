@@ -3,7 +3,7 @@
 <a href="https://travis-ci.org/vic/mix_under"><img src="https://travis-ci.org/vic/mix_under.svg"></a>
 
 
-Execute mix tasks under the specified umbrella apps.
+Execute mix tasks under specific umbrella apps, useful for running ecto migrations or tests.
 
 ## Usage
 
