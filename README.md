@@ -57,6 +57,55 @@ Finished in 0.05 seconds
 Randomized with seed 862534
 ```
 
+## How about `mix cmd --app heaven mix test`?
+
+Well, you can of course use it if you dont mind writing a bit more :),
+(you can always create an alias in your umbrella to run those long commands for you).
+
+## Under any directory
+
+When the glob given to `mix under` looks like a path (it contains `/`), the glob
+is used directly without prepending `apps/` to it.
+
+```shell
+mix under apps/hell test
+```
+
+This means, you can execute mix on any directory, not only below your umbrella.
+
+```shell
+mix under /other/project test
+```
+
+## Under relative task arguments
+
+When the task you are executing expects a path to a file to work with (for example for
+executing a script or only one test file), `mix under` will convert given relative paths
+to absolute. 
+
+This comes handy for executing mix from inside your IDE which would probably use paths
+relative to your project root.
+
+```shell
+$ mix under earth test apps/earth/test/angel_test.exs
+==> (under apps/earth) mix test /home/vic/h/mix_under/example/apps/earth/test/angel_test.exs
+Earth.Angel
+.
+
+Finished in 0.04 seconds
+1 test, 0 failures
+
+Randomized with seed 700004
+```
+
+## Relative paths
+
+When you `mix under` has 
+
+
+This is something not provided by the more generic `mix cmd`.
+
+
 ## Installation
 
 ```elixir
