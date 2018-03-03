@@ -103,9 +103,5 @@ Randomized with seed 700004
 ## Installation
 
 ```elixir
-def deps do
-  [
-    {:mix_under, "~> 0.1", only: [:dev, :test]}
-  ]
-end
+$ mix archive.install github vic/mix_under
 ```

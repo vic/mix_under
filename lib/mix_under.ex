@@ -1,9 +1,10 @@
 defmodule Mix.Tasks.Under do
-  @moduledoc File.read!(Path.expand("../README.md", __DIR__))
-  require Logger
-
   use Mix.Task
 
+  @shortdoc "Execute a task under an umbrella or external project"
+  @moduledoc File.read!(Path.expand("../README.md", __DIR__))
+
+  def run([]), do: nil
   def run([wildcard | args]) do
     wildcard = cond do
       String.contains?(wildcard, "/") -> wildcard
@@ -12,6 +13,7 @@ defmodule Mix.Tasks.Under do
     mix = System.find_executable("mix")
     args = absolute(args)
     Path.wildcard(wildcard) |> Enum.map(&under(&1, mix, args))
+    :ok
   end
 
   defp under(directory, mix, args) do
