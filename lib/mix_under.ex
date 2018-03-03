@@ -17,7 +17,9 @@ defmodule Mix.Tasks.Under do
     cwd = File.cwd!
     try do
       File.cd!(directory)
+      IO.puts "==> (under #{directory}) mix #{Enum.join(args, " ")}"
       0 = cmd([directory: directory, args: args], mix, args)
+      IO.puts ""
     after
       File.cd!(cwd)
     end
@@ -37,7 +39,7 @@ defmodule Mix.Tasks.Under do
       {^port, {:exit_status, status}} ->
         args = Keyword.get(meta, :args)
         directory = Keyword.get(meta, :directory)
-        raise Mix.Error, "[under #{directory}] `mix #{Enum.join(args, " ")}` failed with status #{status}"
+        raise Mix.Error, "(under #{directory}) `mix #{Enum.join(args, " ")}` failed with status #{status}"
     end
   end
 
