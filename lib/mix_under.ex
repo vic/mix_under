@@ -4,7 +4,11 @@ defmodule Mix.Tasks.Under do
   use Mix.Task
 
   def run([wildcard | args]) do
-    Path.wildcard("apps/#{wildcard}") |> Enum.map(&under(&1, args))
+    wildcard = cond do
+      String.contains?(wildcard, "/") -> wildcard
+      :else -> "apps/#{wildcard}"
+    end
+    Path.wildcard(wildcard) |> Enum.map(&under(&1, args))
   end
 
   def under(directory, args) do

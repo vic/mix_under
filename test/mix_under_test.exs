@@ -45,4 +45,8 @@ defmodule MixUnderTest do
     assert_mix_under_fails ["hell", "angel"]
   end
 
+  test "the glob can be a relative path also" do
+    assert_mix_under_contains ["apps/heaven", "test"], ["Heaven"]
+  end
+
 end
