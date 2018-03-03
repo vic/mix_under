@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Under do
   @moduledoc File.read!(Path.expand("../README.md", __DIR__))
+  require Logger
 
   use Mix.Task
 
@@ -8,20 +9,36 @@ defmodule Mix.Tasks.Under do
       String.contains?(wildcard, "/") -> wildcard
       :else -> "apps/#{wildcard}"
     end
-    Path.wildcard(wildcard) |> Enum.map(&under(&1, args))
+    mix = System.find_executable("mix")
+    Path.wildcard(wildcard) |> Enum.map(&under(&1, mix, args))
   end
 
-  def under(directory, args) do
+  defp under(directory, mix, args) do
     cwd = File.cwd!
     try do
       File.cd!(directory)
-      {out, status} = System.cmd("mix", args)
-      IO.puts out
-      unless status == 0 do
-        raise Mix.Error, "[under #{directory}] `mix #{Enum.join(args, " ")}` failed with status #{status}"
-      end
+      0 = cmd([directory: directory, args: args], mix, args)
     after
       File.cd!(cwd)
     end
   end
+
+  defp cmd(meta, cmd, args) do
+    port = Port.open({:spawn_executable, cmd}, [:stderr_to_stdout, :binary, :exit_status, args: args])
+    stream_output(meta, port)
+  end
+
+  defp stream_output(meta, port) do
+    receive do
+      {^port, {:data, data}} ->
+        IO.write(data)
+        stream_output(meta, port)
+      {^port, {:exit_status, 0}} -> 0
+      {^port, {:exit_status, status}} ->
+        args = Keyword.get(meta, :args)
+        directory = Keyword.get(meta, :directory)
+        raise Mix.Error, "[under #{directory}] `mix #{Enum.join(args, " ")}` failed with status #{status}"
+    end
+  end
+
 end
