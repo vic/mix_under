@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Under do
   use Mix.Task
 
-  @shortdoc "Execute a task under an umbrella or external project"
+  @shortdoc "Execute a task under an umbrella or external app"
   @moduledoc File.read!(Path.expand("../README.md", __DIR__))
 
   def run([]), do: nil
