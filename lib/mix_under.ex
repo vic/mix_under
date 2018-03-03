@@ -4,17 +4,17 @@ defmodule Mix.Tasks.Under do
   @shortdoc "Execute a task under an umbrella or external app"
   @moduledoc File.read!(Path.expand("../README.md", __DIR__))
 
-  def run([]), do: nil
-  def run([wildcard | args]) do
+  def run([wildcard, task | args]) do
     wildcard = cond do
       String.contains?(wildcard, "/") -> wildcard
       :else -> "apps/#{wildcard}"
     end
     mix = System.find_executable("mix")
-    args = absolute(args)
+    args = [task] ++ absolute(args)
     Path.wildcard(wildcard) |> Enum.map(&under(&1, mix, args))
     :ok
   end
+  def run(_), do: nil
 
   defp under(directory, mix, args) do
     cwd = File.cwd!
