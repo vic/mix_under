@@ -10,6 +10,7 @@ defmodule Mix.Tasks.Under do
       :else -> "apps/#{wildcard}"
     end
     mix = System.find_executable("mix")
+    args = absolute(args)
     Path.wildcard(wildcard) |> Enum.map(&under(&1, mix, args))
   end
 
@@ -23,6 +24,16 @@ defmodule Mix.Tasks.Under do
     after
       File.cd!(cwd)
     end
+  end
+
+  defp absolute(args) do
+    Enum.map(args, fn arg ->
+      if File.exists?(arg) and Path.type(arg) == :relative do
+        Path.expand(arg)
+      else
+        arg
+      end
+    end)
   end
 
   defp cmd(meta, cmd, args) do

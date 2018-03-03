@@ -49,4 +49,8 @@ defmodule MixUnderTest do
     assert_mix_under_contains ["apps/heaven", "test"], ["Heaven"]
   end
 
+  test "when given relative files expads them" do
+    assert_mix_under_contains ["earth", "test", "apps/earth/test/angel_test.exs"], ["Earth.Angel"]
+  end
+
 end
