@@ -98,12 +98,6 @@ Finished in 0.04 seconds
 Randomized with seed 700004
 ```
 
-## Relative paths
-
-When you `mix under` has 
-
-
-This is something not provided by the more generic `mix cmd`.
 
 
 ## Installation
