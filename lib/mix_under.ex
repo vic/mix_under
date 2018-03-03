@@ -3,6 +3,11 @@ defmodule Mix.Tasks.Under do
 
   @shortdoc "Execute a task under an umbrella or external app"
   @moduledoc File.read!(Path.expand("../README.md", __DIR__))
+  @help """
+  Usage: mix under GLOB TASK
+
+  See `mix help under` for more.
+  """
 
   def run([wildcard, task | args]) do
     wildcard = cond do
@@ -14,7 +19,7 @@ defmodule Mix.Tasks.Under do
     Path.wildcard(wildcard) |> Enum.map(&under(&1, mix, args))
     :ok
   end
-  def run(_), do: nil
+  def run(_), do: IO.puts(@help)
 
   defp under(directory, mix, args) do
     cwd = File.cwd!
