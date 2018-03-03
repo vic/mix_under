@@ -111,7 +111,7 @@ This is something not provided by the more generic `mix cmd`.
 ```elixir
 def deps do
   [
-    {:mix_under, "~> 0.1.0", only: [:dev, :test]}
+    {:mix_under, "~> 0.1", only: [:dev, :test]}
   ]
 end
 ```
